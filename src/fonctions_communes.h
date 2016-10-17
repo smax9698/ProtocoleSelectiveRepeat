@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include <getopt.h>
 
 /*
@@ -19,6 +20,6 @@
  * @return : 0 en cas de succès et -1 en cas d'erreur. (un message explicatif est mis sur la sortie standard).
  *
  */
-int read_entries(int argc, char *argv[], char *file_name, char * host_name, int * port);
+int read_entries(int argc, char *argv[], char **file_name, char **host_name, uint16_t * port);
 
 #endif

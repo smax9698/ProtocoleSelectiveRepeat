@@ -1,6 +1,6 @@
 #include "fonctions_communes.h"
 
-int read_entries(int argc, char *argv[], char *file_name, char * host_name, int * port){
+int read_entries(int argc, char *argv[], char **file_name, char **host_name, uint16_t * port){
 
   int c;
   size_t length;
@@ -15,8 +15,8 @@ int read_entries(int argc, char *argv[], char *file_name, char * host_name, int 
     switch (c) {
       case 'f':
         length = strlen((const char *)optarg)+1;
-        file_name = calloc(length,sizeof(char));
-        memcpy((void *)file_name,(const void *)optarg,length-1);
+        *file_name = calloc(length,sizeof(char));
+        memcpy((void *)*file_name,(const void *)optarg,sizeof(char)*(length-1));
         break;
       default:
         fprintf(stderr, "Unexpected option\n");
@@ -30,15 +30,15 @@ int read_entries(int argc, char *argv[], char *file_name, char * host_name, int 
   }
 
   length = strlen(argv[optind])+1;
-  host_name = calloc(length,sizeof(char));
-  memcpy((void *)host_name,(const void *)argv[optind],length-1);
+  *host_name = calloc(length,sizeof(char));
+  memcpy((void *)*host_name,(const void *)argv[optind],sizeof(char)*(length-1));
 
   int portnum = atoi(argv[optind+1]);
   if(portnum <= 0){
     fprintf(stderr, "Invalid port : %d (hostname and port have to be the last arguments)\n",portnum);
     return -1;
   }
-  memcpy((void*)port,(const void *)&portnum,sizeof(int));
+  memcpy((void*)port,(const void *)&portnum,sizeof(uint16_t));
 
   return 0;
 
