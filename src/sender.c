@@ -31,6 +31,10 @@ int main(int argc,char *argv[]){
     return EXIT_FAILURE;
   }
 
+  // establish connection
 
+  int sfd = create_socket(NULL,&addr); /* connected */
+
+  
   return 0;
 }
