@@ -37,7 +37,6 @@ int create_socket(struct sockaddr_in6 *source_addr,struct sockaddr_in6 *dest_add
     }
 
   }
-  printf("1\n");
   return sfd;
 }
 
