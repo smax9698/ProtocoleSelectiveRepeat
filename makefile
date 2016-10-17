@@ -22,10 +22,10 @@ debug: CFLAGS += -g -DDEBUG -Wno-unused-parameter -fno-omit-frame-pointer
 debug: clean sender receiver
 
 # We use an implicit rule to build executables named 'sender' and  receiver
-src/sender: src/sender.o
-src/receiver: src/receiver.o
+src/sender: src/sender.o src/fonctions_communes.o
+src/receiver: src/receiver.o src/fonctions_communes.o
 
 .PHONY: clean
 
 clean:
-	@rm -f src/sender src/receiver src/sender.o src/receiver.o
+	@rm -f src/sender src/receiver src/sender.o src/receiver.o src/fonctions_communes.o

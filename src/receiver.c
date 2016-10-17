@@ -1,8 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
+#include "fonctions_communes.h"
 
 int main(int argc,char *argv[]){
-  printf("Hello word\nThis is the receiver");
+
+  // lecture et stockage des arguments
+
+  char * file_name = NULL;
+  char * hostname = NULL;
+  int port;
+  if(read_entries(argc,argv,file_name,hostname,&port) == -1){
+    fprintf(stderr, "Error in entries\n");
+    return -1;
+  }
+
   return 0;
 }
