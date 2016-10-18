@@ -4,9 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/select.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 
-int selective_repeat_send(int sfd,int fd){
-  
-}
+#include "packet_implem.h"
+
+int selective_repeat_send(int sfd,FILE * f);
 
 #endif

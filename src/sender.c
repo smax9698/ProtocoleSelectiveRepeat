@@ -38,18 +38,19 @@ int main(int argc,char *argv[]){
   if(sfd == -1){
     fprintf(stderr, "Not able to create socket : sfd = -1\n");
   }
-  int fd; // file descriptor sur lequel lire
+  FILE * fd; // file descriptor sur lequel lire
 
   if(file_name != NULL){
-    fd = open(file_name,O_RDONLY); // file descriptor du fichier à lire
+    fd = fopen(file_name,"r"); // file descriptor du fichier à lire
   }
   else{
-    fd = STDIN_FILENO;
+    fd = stdin;
   }
 
-  if(fd == -1){
-    fprintf(stderr, "Not able to open file %s\n",file_name);
-  }
+  //if(fd == -1){
+  //  fprintf(stderr, "Not able to open file %s\n",file_name);
+  //}
 
+  selective_repeat_send(sfd,fd);
   return 0;
 }
