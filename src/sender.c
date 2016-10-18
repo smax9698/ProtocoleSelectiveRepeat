@@ -47,10 +47,6 @@ int main(int argc,char *argv[]){
     fd = stdin;
   }
 
-  //if(fd == -1){
-  //  fprintf(stderr, "Not able to open file %s\n",file_name);
-  //}
-
   selective_repeat_send(sfd,fd);
   return 0;
 }
