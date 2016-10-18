@@ -24,6 +24,7 @@ typedef enum {
 /* Taille maximale de Window */
 #define MAX_WINDOW_SIZE 31
 
+#define MAX_SEQNUM 255
 /* Valeur de retours des fonctions */
 typedef enum {
 	PKT_OK = 0,     /* Le paquet a Ã©tÃ© traitÃ© avec succÃ¨s */
