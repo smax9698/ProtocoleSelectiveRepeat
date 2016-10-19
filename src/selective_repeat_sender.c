@@ -9,8 +9,11 @@
 int selective_repeat_send(int sfd,FILE * f){
 
   pkt_t * sending_buffer[31]; // buffer contenant les segment à envoyer
-  uint8_t window = 2; // window [0,31]
-  uint8_t max_window = 2;
+  for (size_t i = 0; i < 31; i++) {
+    sending_buffer[i] = NULL;
+  }
+  uint8_t window = 1; // window [0,31]
+  uint8_t max_window = 1;
   //uint8_t authorized_buff_max = 1; // taille de la window du receiver
   uint16_t lastack = 0; // dernier numero de sequence acknowledged
   uint16_t seq_num = 0; // numero de sequence actuel
@@ -28,9 +31,6 @@ int selective_repeat_send(int sfd,FILE * f){
 
   while(n != 0) // CHANGER LA CONDITION D'ARRET
   {
-
-    //memset((void *)buf,0,10);
-    //n =  read(fd, (void *) buf, 10);
 
     FD_ZERO(&read_fd);
     FD_ZERO(&write_fd);
@@ -60,9 +60,9 @@ int selective_repeat_send(int sfd,FILE * f){
               pkt_set_length(new_pkt,n);
               pkt_set_type(new_pkt,PTYPE_DATA);
 
-              seq_num = (seq_num+1)%256;
-
               pkt_set_seqnum(new_pkt,seq_num);
+              seq_num = (seq_num+1)%256; // next seq_num
+
               pkt_set_window(new_pkt,window);
               pkt_set_timestamp(new_pkt,1); // TO DO
               pkt_set_payload(new_pkt,buf_payload,n);
@@ -72,14 +72,17 @@ int selective_repeat_send(int sfd,FILE * f){
 
               memset(buf_packet,0,524);
               status_code = pkt_encode(new_pkt,buf_packet,&len);
+
               if(status_code != PKT_OK){
                 fprintf(stderr, "Not able to encode the structure\n");
                 return -1;
               }
 
               uint8_t position_allowed_in_buffer = 0;
+              printf("%d\n",position_allowed_in_buffer);
               while(position_allowed_in_buffer < max_window && sending_buffer[position_allowed_in_buffer] != NULL) {
                 position_allowed_in_buffer++;
+                printf("%d\n",position_allowed_in_buffer);
               }
 
               sending_buffer[position_allowed_in_buffer] = new_pkt;
@@ -126,21 +129,23 @@ int selective_repeat_send(int sfd,FILE * f){
               }
 
               lastack = pkt_get_seqnum(pkt_ack);
-
+              printf("lastack : %d\n",lastack);
               // retirer les packets acknowledged
               for (size_t i = 0; i < max_window; i++){
 
                 if(sending_buffer[i] != NULL){
                   uint16_t seq_num_packet = pkt_get_seqnum(sending_buffer[i]);
-
+                  printf("retire\n");
                   // verifie s'il faut retirer
                   if((lastack > seq_num_packet) && ((lastack - seq_num_packet) <= max_window)){
-                    pkt_del(sending_buffer[i]);
+                    //pkt_del(sending_buffer[i]);
+                    printf("retire 1\n");
                     sending_buffer[i] = NULL;
                     window++;
                   }
                   else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
-                    pkt_del(sending_buffer[i]);
+                    //pkt_del(sending_buffer[i]);
+                    printf("retire 2\n");
                     sending_buffer[i] = NULL;
                     window++;
                   }
@@ -154,7 +159,6 @@ int selective_repeat_send(int sfd,FILE * f){
         }
 
           // tester les packets à renvoyer
-
 
       }
 
