@@ -1,4 +1,4 @@
-#include "selective_repeat_sender.h"
+#include "selective_repeat_receiver.h"
 
 /*
  *  @sfd : file descriptor du socket sur lequel on communique
@@ -7,21 +7,17 @@
  */
 int selective_repeat_receive(int sfd,FILE * f){
 
-  pkt_t * sending_buffer[32]; // buffer contenant les segment à envoyer
+  pkt_t * receiving_buffer[31]; // buffer contenant les segment à envoyer
   uint8_t window = 1; // window [0,31]
 
   size_t n = -1; // nombre de bytes lus
-  char buf[524]; // payload size + header and CRC sizes
+  char buf_packet[524]; // packet
   int fd = fileno(f);
   int max_fd = sfd+1;
   int err_num;
   fd_set read_fd, write_fd;
 
   while(n != 0){
-
-    //memset((void *)buf,0,10);
-    //n =  read(fd, (void *) buf, 10);
-
 
     FD_ZERO(&read_fd);
     FD_ZERO(&write_fd);
@@ -36,12 +32,17 @@ int selective_repeat_receive(int sfd,FILE * f){
     }
     else{
 
-      // réception des acknowledgments
+      // réception des packets
       if(FD_ISSET(sfd,&read_fd)){
-
+        memset(buf_packet,0,524);
+        n = recv(sfd,buf_packet,524,0); // lecture d'un packet de max 524 bytes
+        if(n > 0){
+          printf("we write\n");
+          write(fd,buf_packet,n);
+        }
       }
 
-      // envoi des packets
+      // envoi des acknowledgments
       if(FD_ISSET(sfd,&write_fd)){
 
       }

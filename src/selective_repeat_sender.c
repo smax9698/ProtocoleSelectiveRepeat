@@ -4,14 +4,13 @@
  *  @sfd : file descriptor du socket sur lequel on communique
  *  @fd : file descriptor sur lequel on doit lire les données à envoyer
  *
- * TO DO : timestamp
- * TO DO : acknowledgements
+ * TO DO : timestamp and resend
  */
 int selective_repeat_send(int sfd,FILE * f){
 
   pkt_t * sending_buffer[31]; // buffer contenant les segment à envoyer
-  uint8_t window = 1; // window [0,31]
-  uint8_t max_window = 1;
+  uint8_t window = 2; // window [0,31]
+  uint8_t max_window = 2;
   //uint8_t authorized_buff_max = 1; // taille de la window du receiver
   uint16_t lastack = 0; // dernier numero de sequence acknowledged
   uint16_t seq_num = 0; // numero de sequence actuel
@@ -46,66 +45,6 @@ int selective_repeat_send(int sfd,FILE * f){
     }
     else{
 
-      // réception des acknowledgments
-      if(FD_ISSET(sfd,&read_fd)){
-
-        n = recv(sfd, buf_acknowledgment, 12, 0); // lis 12 bytes (taille d'un acknowledgment)
-
-        if(n == -1) // message d'erreur en cas d'erreur
-        {
-          fprintf(stderr, "%s\n",strerror(errno));
-        }
-        else if(n!=0) // traitement de l'acknowledgment
-        {
-
-          pkt_t *pkt_ack = pkt_new();
-
-          pkt_status_code status_code;
-          status_code = pkt_decode(buf_acknowledgment,12,pkt_ack);
-          
-          if(status_code != PKT_OK){
-            fprintf(stderr, "acknowledgment rejected\n");
-          }
-          else{
-
-            // mise a jour de la taille de la window
-            if(pkt_get_window(pkt_ack) != max_window){
-
-              uint8_t new_free_place = pkt_get_window(pkt_ack) - max_window;
-              window += new_free_place;
-              max_window = pkt_get_window(pkt_ack);
-
-            }
-
-            lastack = pkt_get_seqnum(pkt_ack);
-
-            // retirer les packets acknowledged
-            for (size_t i = 0; i < max_window; i++){
-
-              if(sending_buffer[i] != NULL){
-                uint16_t seq_num_packet = pkt_get_seqnum(sending_buffer[i]);
-
-                // verifie s'il faut retirer
-                if((lastack > seq_num_packet) && ((lastack - seq_num_packet) <= max_window)){
-                  pkt_del(sending_buffer[i]);
-                  sending_buffer[i] = NULL;
-                  window++;
-                }
-                else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
-                  pkt_del(sending_buffer[i]);
-                  sending_buffer[i] = NULL;
-                  window++;
-                }
-
-              }
-
-            }
-
-          }
-        }
-      }
-
-
       // envoi des packets
       if(FD_ISSET(sfd,&write_fd)){
 
@@ -114,7 +53,7 @@ int selective_repeat_send(int sfd,FILE * f){
 
             memset(buf_payload,0,512);
             n = read(fd,buf_payload,512); // lecture de max 512 bytes pour mettre dans le payload
-
+            printf("pack\n");
             if(n != 0){
               pkt_t * new_pkt = pkt_new();
 
@@ -154,6 +93,68 @@ int selective_repeat_send(int sfd,FILE * f){
               }
             }
         }
+
+        // réception des acknowledgments
+        if(FD_ISSET(sfd,&read_fd)){
+
+          n = recv(sfd, buf_acknowledgment, 12, 0); // lis 12 bytes (taille d'un acknowledgment)
+          printf("ack\n");
+          if(n == -1) // message d'erreur en cas d'erreur
+          {
+            fprintf(stderr, "%s\n",strerror(errno));
+          }
+          else if(n!=0) // traitement de l'acknowledgment
+          {
+
+            pkt_t *pkt_ack = pkt_new();
+
+            pkt_status_code status_code;
+            status_code = pkt_decode(buf_acknowledgment,12,pkt_ack);
+
+            if(status_code != PKT_OK){
+              fprintf(stderr, "acknowledgment rejected\n");
+            }
+            else{
+
+              // mise a jour de la taille de la window
+              if(pkt_get_window(pkt_ack) != max_window){
+
+                uint8_t new_free_place = pkt_get_window(pkt_ack) - max_window;
+                window += new_free_place;
+                max_window = pkt_get_window(pkt_ack);
+
+              }
+
+              lastack = pkt_get_seqnum(pkt_ack);
+
+              // retirer les packets acknowledged
+              for (size_t i = 0; i < max_window; i++){
+
+                if(sending_buffer[i] != NULL){
+                  uint16_t seq_num_packet = pkt_get_seqnum(sending_buffer[i]);
+
+                  // verifie s'il faut retirer
+                  if((lastack > seq_num_packet) && ((lastack - seq_num_packet) <= max_window)){
+                    pkt_del(sending_buffer[i]);
+                    sending_buffer[i] = NULL;
+                    window++;
+                  }
+                  else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
+                    pkt_del(sending_buffer[i]);
+                    sending_buffer[i] = NULL;
+                    window++;
+                  }
+
+                }
+
+              }
+
+            }
+          }
+        }
+
+          // tester les packets à renvoyer
+
 
       }
 

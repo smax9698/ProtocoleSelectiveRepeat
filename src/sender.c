@@ -26,7 +26,7 @@ int main(int argc,char *argv[]){
 
   const char *err = real_address(host_name,port,&addr);
 
-  if (err) {
+  if(err){
     fprintf(stderr, "Could not resolve hostname %s: %s\n", host_name, err);
     return EXIT_FAILURE;
   }
@@ -39,16 +39,16 @@ int main(int argc,char *argv[]){
     fprintf(stderr, "Not able to create socket : sfd = -1\n");
   }
 
-  FILE * fd; // file descriptor sur lequel lire
+  FILE * f; // file descriptor sur lequel lire
 
   if(file_name != NULL){
-    fd = fopen(file_name,"r"); // file descriptor du fichier à lire
+    f = fopen(file_name,"r"); // file descriptor du fichier à lire
   }
   else{
-    fd = stdin;
+    f = stdin;
   }
 
-  selective_repeat_send(sfd,fd);
-  
+  selective_repeat_send(sfd,f);
+
   return 0;
 }
