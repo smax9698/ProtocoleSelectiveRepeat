@@ -12,6 +12,13 @@ int selective_repeat_send(int sfd,FILE * f){
   for (size_t i = 0; i < 31; i++) {
     sending_buffer[i] = NULL;
   }
+
+  struct timeval * time_buffer[31];
+  for (size_t i = 0; i < 31; i++) {
+    time_buffer[i] = NULL;
+  }
+
+
   uint8_t window = 5; // window [0,31]
   uint8_t max_window = 5;
   //uint8_t authorized_buff_max = 1; // taille de la window du receiver
@@ -88,19 +95,19 @@ int selective_repeat_send(int sfd,FILE * f){
                   pkt_del(sending_buffer[i]);
                   printf("retrait du packet num_seq : %d lastack : %d\n",seq_num_packet,lastack);
                   sending_buffer[i] = NULL;
+                  time_buffer[i] = NULL;
                   window++;
                 }
                 else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
                   pkt_del(sending_buffer[i]);
                   printf("retrait du packet num_seq : %d de la positio : %d car ack : %d\n",seq_num_packet,i,lastack);
                   sending_buffer[i] = NULL;
+                  time_buffer[i] = NULL;
                   window++;
                 }
 
               }
-
             }
-
           }
         }
       }
@@ -152,7 +159,14 @@ int selective_repeat_send(int sfd,FILE * f){
               window--;
               printf("taille dispo dans le buffer : %d\n",window);
               err = send(sfd,buf_packet,len,0);
+
               printf("packet envoyé\n");
+
+              // enregistre le moment d'envoi
+
+              struct timeval * new_time = (struct timeval*)malloc(sizeof(struct timeval));
+              gettimeofday(new_time,NULL);
+              time_buffer[position_allowed_in_buffer] = new_time;
 
               if(err == -1){
                 fprintf(stderr, "send error %s\n",strerror(errno));
@@ -163,6 +177,33 @@ int selective_repeat_send(int sfd,FILE * f){
 
           // tester les packets à renvoyer
 
+      }
+
+
+      // Cherche les paquets perdu (ou considéré comme) et send
+
+      for (size_t i = 0; i < 31; i++) {
+
+        if(time_buffer[i] != NULL){
+
+          struct timeval * now = (struct timeval *)malloc(sizeof(struct timeval));
+          gettimeofday(now,NULL);
+
+          if(now->tv_sec - time_buffer[i]->tv_sec > 4){
+
+              size_t len = pkt_get_length(sending_buffer[i])+12;
+              memset(buf_packet,0,524);
+              pkt_status_code status_code = pkt_encode(sending_buffer[i],buf_packet,&len);
+              if(status_code != PKT_OK){
+                fprintf(stderr, "Not able to encode the structure\n");
+                return -1;
+              }
+
+              err = send(sfd,buf_packet,len,0);
+              gettimeofday(time_buffer[i],NULL);
+          }
+          free(now);
+        }
       }
 
     }
