@@ -86,7 +86,6 @@ int selective_repeat_receive(int sfd,FILE * f){
 
             if(status_decode == E_CRC){
               send_ack(sfd,window,seq_num_expected);
-              fprintf(stderr,"send ack for seqnum : %d with seq_num_expected : %d\n",pkt_get_seqnum(receiving_buffer[i]),seq_num_expected);
             }
 
           }
@@ -133,8 +132,6 @@ int selective_repeat_receive(int sfd,FILE * f){
                 }
               }
               send_ack(sfd,window,seq_num_expected);
-              fprintf(stderr,"send ack for seqnum : %d with seq_num_expected : %d\n",pkt_get_seqnum(receiving_buffer[i]),seq_num_expected);
-
             }
             else if(((pkt_get_seqnum(new_pkt) > seq_num_expected) && ((pkt_get_seqnum(new_pkt) - seq_num_expected) <= window)) || ((pkt_get_seqnum(new_pkt) < seq_num_expected) && ((pkt_get_seqnum(new_pkt) + 255 - seq_num_expected) <= window))) // si packet dans le désordre
             {
