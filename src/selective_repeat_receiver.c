@@ -102,10 +102,7 @@ int selective_repeat_receive(int sfd,FILE * f){
 
               seq_num_expected = (seq_num_expected+1)%256;
 
-              //if(seq_num_expected < 20 || seq_num_expected > 24){ //SIMULE PERTE D'ACK
-              //send_ack(sfd,window,seq_num_expected);
-              //fprintf(stderr,"send ack for seqnum : %d with seq_num_expected : %d\n",pkt_get_seqnum(new_pkt),seq_num_expected);
-              //}
+
               bool still_in_sequence_packet = true;
               while (still_in_sequence_packet) {
                 still_in_sequence_packet = false;
@@ -119,12 +116,6 @@ int selective_repeat_receive(int sfd,FILE * f){
                       fprintf(stderr,"write packet seqnum : %d\n",pkt_get_seqnum(new_pkt));
                       seq_num_expected = (seq_num_expected+1)%256;
 
-                      // send ack
-
-                      //send_ack(sfd,window,seq_num_expected);
-                      //fprintf(stderr,"send ack for seqnum : %d with seq_num_expected : %d\n",pkt_get_seqnum(receiving_buffer[i]),seq_num_expected);
-
-                      // RETIRE DU buffer
                       receiving_buffer[i] = NULL;
                       still_in_sequence_packet = true;
                     }
@@ -132,22 +123,30 @@ int selective_repeat_receive(int sfd,FILE * f){
                 }
               }
               send_ack(sfd,window,seq_num_expected);
-<<<<<<< HEAD
 
-=======
->>>>>>> 7931adbfd3c5b43132e3161c8011a5bc3617f79c
             }
             else if(((pkt_get_seqnum(new_pkt) > seq_num_expected) && ((pkt_get_seqnum(new_pkt) - seq_num_expected) <= window)) || ((pkt_get_seqnum(new_pkt) < seq_num_expected) && ((pkt_get_seqnum(new_pkt) + 255 - seq_num_expected) <= window))) // si packet dans le désordre
             {
               fprintf(stderr,"packet reçu OUT OF ORDER : num_seq %d\n",pkt_get_seqnum(new_pkt));
-              // VERIFIER PAQUET PAS ENCORE DANS BUFFER
-              // place dans le buffer
-              uint8_t position_allowed_in_buffer = 0;
-              while(position_allowed_in_buffer < window && receiving_buffer[position_allowed_in_buffer] != NULL) {
-                position_allowed_in_buffer++;
+
+              // verifie que le paquet n'est pas deja dans le buffer
+              bool inbuffer = false;
+              for (size_t i = 0; i < 31 && !inbuffer; i++) {
+                if(receiving_buffer[i] != NULL){
+                  inbuffer = (pkt_get_seqnum(receiving_buffer[i])== pkt_get_seqnum(new_pkt));
+                }
               }
-              fprintf(stderr,"packet out of order de seqnum : %d placé dans le buffer a la position : %d\n",pkt_get_seqnum(new_pkt),position_allowed_in_buffer);
-              receiving_buffer[position_allowed_in_buffer] = new_pkt;
+
+              if(!inbuffer){
+                // place dans le buffer
+                uint8_t position_allowed_in_buffer = 0;
+                while(position_allowed_in_buffer < window && receiving_buffer[position_allowed_in_buffer] != NULL) {
+                  position_allowed_in_buffer++;
+                }
+                fprintf(stderr,"packet out of order de seqnum : %d placé dans le buffer a la position : %d\n",pkt_get_seqnum(new_pkt),position_allowed_in_buffer);
+                receiving_buffer[position_allowed_in_buffer] = new_pkt;
+              }
+
               send_ack(sfd,window,seq_num_expected);
               fprintf(stderr, "send ack seq_num_expected : %d\n",seq_num_expected);
             }
