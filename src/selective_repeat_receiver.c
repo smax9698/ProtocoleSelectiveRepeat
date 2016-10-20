@@ -132,7 +132,10 @@ int selective_repeat_receive(int sfd,FILE * f){
                 }
               }
               send_ack(sfd,window,seq_num_expected);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7931adbfd3c5b43132e3161c8011a5bc3617f79c
             }
             else if(((pkt_get_seqnum(new_pkt) > seq_num_expected) && ((pkt_get_seqnum(new_pkt) - seq_num_expected) <= window)) || ((pkt_get_seqnum(new_pkt) < seq_num_expected) && ((pkt_get_seqnum(new_pkt) + 255 - seq_num_expected) <= window))) // si packet dans le désordre
             {
