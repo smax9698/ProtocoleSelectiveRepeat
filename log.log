@@ -1,0 +1,293 @@
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 0
+write packet seqnum : 0
+send ack for seqnum : 0 with seq_num_expected : 1
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 1
+write packet seqnum : 1
+send ack for seqnum : 1 with seq_num_expected : 2
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 2
+write packet seqnum : 2
+send ack for seqnum : 2 with seq_num_expected : 3
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 3
+write packet seqnum : 3
+send ack for seqnum : 3 with seq_num_expected : 4
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 4
+write packet seqnum : 4
+send ack for seqnum : 4 with seq_num_expected : 5
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 5
+write packet seqnum : 5
+send ack for seqnum : 5 with seq_num_expected : 6
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 6
+write packet seqnum : 6
+send ack for seqnum : 6 with seq_num_expected : 7
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 7
+write packet seqnum : 7
+send ack for seqnum : 7 with seq_num_expected : 8
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 8
+write packet seqnum : 8
+send ack for seqnum : 8 with seq_num_expected : 9
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 9
+write packet seqnum : 9
+send ack for seqnum : 9 with seq_num_expected : 10
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 10
+write packet seqnum : 10
+send ack for seqnum : 10 with seq_num_expected : 11
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 11
+write packet seqnum : 11
+send ack for seqnum : 11 with seq_num_expected : 12
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 12
+write packet seqnum : 12
+send ack for seqnum : 12 with seq_num_expected : 13
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 13
+write packet seqnum : 13
+send ack for seqnum : 13 with seq_num_expected : 14
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 14
+write packet seqnum : 14
+send ack for seqnum : 14 with seq_num_expected : 15
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 15
+write packet seqnum : 15
+send ack for seqnum : 15 with seq_num_expected : 16
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 16
+write packet seqnum : 16
+send ack for seqnum : 16 with seq_num_expected : 17
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 17
+write packet seqnum : 17
+send ack for seqnum : 17 with seq_num_expected : 18
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 18
+write packet seqnum : 18
+send ack for seqnum : 18 with seq_num_expected : 19
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 19
+write packet seqnum : 19
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 20
+write packet seqnum : 20
+send ack for seqnum : 20 with seq_num_expected : 21
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 21
+write packet seqnum : 21
+send ack for seqnum : 21 with seq_num_expected : 22
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 22
+write packet seqnum : 22
+send ack for seqnum : 22 with seq_num_expected : 23
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 23
+write packet seqnum : 23
+send ack for seqnum : 23 with seq_num_expected : 24
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 24
+write packet seqnum : 24
+send ack for seqnum : 24 with seq_num_expected : 25
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 25
+write packet seqnum : 25
+send ack for seqnum : 25 with seq_num_expected : 26
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 26
+write packet seqnum : 26
+send ack for seqnum : 26 with seq_num_expected : 27
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 27
+write packet seqnum : 27
+send ack for seqnum : 27 with seq_num_expected : 28
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 28
+write packet seqnum : 28
+send ack for seqnum : 28 with seq_num_expected : 29
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 29
+write packet seqnum : 29
+send ack for seqnum : 29 with seq_num_expected : 30
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 30
+write packet seqnum : 30
+send ack for seqnum : 30 with seq_num_expected : 31
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 31
+write packet seqnum : 31
+send ack for seqnum : 31 with seq_num_expected : 32
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 32
+write packet seqnum : 32
+send ack for seqnum : 32 with seq_num_expected : 33
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 33
+write packet seqnum : 33
+send ack for seqnum : 33 with seq_num_expected : 34
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 34
+write packet seqnum : 34
+send ack for seqnum : 34 with seq_num_expected : 35
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 35
+write packet seqnum : 35
+send ack for seqnum : 35 with seq_num_expected : 36
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 36
+write packet seqnum : 36
+send ack for seqnum : 36 with seq_num_expected : 37
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 37
+write packet seqnum : 37
+send ack for seqnum : 37 with seq_num_expected : 38
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 38
+write packet seqnum : 38
+send ack for seqnum : 38 with seq_num_expected : 39
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 39
+write packet seqnum : 39
+send ack for seqnum : 39 with seq_num_expected : 40
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 40
+write packet seqnum : 40
+send ack for seqnum : 40 with seq_num_expected : 41
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 41
+write packet seqnum : 41
+send ack for seqnum : 41 with seq_num_expected : 42
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 42
+write packet seqnum : 42
+send ack for seqnum : 42 with seq_num_expected : 43
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 43
+write packet seqnum : 43
+send ack for seqnum : 43 with seq_num_expected : 44
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 44
+write packet seqnum : 44
+send ack for seqnum : 44 with seq_num_expected : 45
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 45
+write packet seqnum : 45
+send ack for seqnum : 45 with seq_num_expected : 46
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 46
+write packet seqnum : 46
+send ack for seqnum : 46 with seq_num_expected : 47
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 47
+write packet seqnum : 47
+send ack for seqnum : 47 with seq_num_expected : 48
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 48
+write packet seqnum : 48
+send ack for seqnum : 48 with seq_num_expected : 49
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 49
+write packet seqnum : 49
+send ack for seqnum : 49 with seq_num_expected : 50
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 50
+write packet seqnum : 50
+send ack for seqnum : 50 with seq_num_expected : 51
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 51
+write packet seqnum : 51
+send ack for seqnum : 51 with seq_num_expected : 52
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 52
+write packet seqnum : 52
+send ack for seqnum : 52 with seq_num_expected : 53
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 53
+write packet seqnum : 53
+send ack for seqnum : 53 with seq_num_expected : 54
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 54
+write packet seqnum : 54
+send ack for seqnum : 54 with seq_num_expected : 55
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 55
+write packet seqnum : 55
+send ack for seqnum : 55 with seq_num_expected : 56
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 56
+write packet seqnum : 56
+send ack for seqnum : 56 with seq_num_expected : 57
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 57
+write packet seqnum : 57
+send ack for seqnum : 57 with seq_num_expected : 58
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 58
+write packet seqnum : 58
+send ack for seqnum : 58 with seq_num_expected : 59
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 59
+write packet seqnum : 59
+send ack for seqnum : 59 with seq_num_expected : 60
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 60
+write packet seqnum : 60
+send ack for seqnum : 60 with seq_num_expected : 61
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 61
+write packet seqnum : 61
+send ack for seqnum : 61 with seq_num_expected : 62
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 62
+write packet seqnum : 62
+send ack for seqnum : 62 with seq_num_expected : 63
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 63
+write packet seqnum : 63
+send ack for seqnum : 63 with seq_num_expected : 64
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 64
+write packet seqnum : 64
+send ack for seqnum : 64 with seq_num_expected : 65
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 65
+write packet seqnum : 65
+send ack for seqnum : 65 with seq_num_expected : 66
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 66
+write packet seqnum : 66
+send error Connection refused
+send ack for seqnum : 66 with seq_num_expected : 67
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 67
+write packet seqnum : 67
+send ack for seqnum : 67 with seq_num_expected : 68
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 68
+write packet seqnum : 68
+send error Connection refused
+send ack for seqnum : 68 with seq_num_expected : 69
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 69
+write packet seqnum : 69
+send ack for seqnum : 69 with seq_num_expected : 70
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 70
+write packet seqnum : 70
+send error Connection refused
+send ack for seqnum : 70 with seq_num_expected : 71
+reception d'un packet de taille : 524
+packet reçu IN ORDER num_seq : 71
+write packet seqnum : 71
+send ack for seqnum : 71 with seq_num_expected : 72
+reception d'un packet de taille : 524
+Not able to decode
+reception d'un packet de taille : -1
