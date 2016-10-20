@@ -55,7 +55,6 @@ int selective_repeat_send(int sfd,FILE * f){
       // réception des acknowledgments
       if(FD_ISSET(sfd,&read_fd)){
         n = recv(sfd, buf_acknowledgment, 12, 0); // lis 12 bytes (taille d'un acknowledgment)
-        printf("reception d'un ack de taille %d\n",n);
         if(n == -1) // message d'erreur en cas d'erreur
         {
           fprintf(stderr, "%s\n",strerror(errno));
@@ -79,11 +78,10 @@ int selective_repeat_send(int sfd,FILE * f){
               uint8_t new_free_place = pkt_get_window(pkt_ack) - max_window;
               window += new_free_place;
               max_window = pkt_get_window(pkt_ack);
-              printf("change window size : %d\n",max_window);
             }
 
             lastack = pkt_get_seqnum(pkt_ack);
-            printf("seq_num de l'ack : %d\n",lastack);
+            printf("ack recu  : %d\n",lastack);
 
             // retirer les packets acknowledged
             for (size_t i = 0; i < max_window; i++){
@@ -93,14 +91,14 @@ int selective_repeat_send(int sfd,FILE * f){
                 // verifie s'il faut retirer
                 if((lastack > seq_num_packet) && ((lastack - seq_num_packet) <= max_window)){
                   pkt_del(sending_buffer[i]);
-                  printf("retrait du packet num_seq : %d lastack : %d\n",seq_num_packet,lastack);
+                  printf("retrait du packet seq_num : %d\n",seq_num_packet);
                   sending_buffer[i] = NULL;
                   time_buffer[i] = NULL;
                   window++;
                 }
                 else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
                   pkt_del(sending_buffer[i]);
-                  printf("retrait du packet num_seq : %d de la positio : %d car ack : %d\n",seq_num_packet,i,lastack);
+                  printf("retrait du packet seq_num : %d\n",seq_num_packet);
                   sending_buffer[i] = NULL;
                   time_buffer[i] = NULL;
                   window++;
@@ -120,7 +118,6 @@ int selective_repeat_send(int sfd,FILE * f){
 
             memset(buf_payload,0,512);
             n = read(fd,buf_payload,512); // lecture de max 512 bytes pour mettre dans le payload
-            printf("lecture de %d bytes\n",n);
 
             if(n != 0){
 
@@ -155,12 +152,11 @@ int selective_repeat_send(int sfd,FILE * f){
               }
 
               sending_buffer[position_allowed_in_buffer] = new_pkt;
-              printf("packet placé dans le buffer à la position : %d\n",position_allowed_in_buffer);
               window--;
-              printf("taille dispo dans le buffer : %d\n",window);
+
               err = send(sfd,buf_packet,len,0);
 
-              printf("packet envoyé\n");
+              printf("packet envoyé seq_num : %d\n",pkt_get_seqnum(new_pkt));
 
               // enregistre le moment d'envoi
 
