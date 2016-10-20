@@ -31,7 +31,7 @@ int selective_repeat_send(int sfd,FILE * f){
 
   while(n != 0) // CHANGER LA CONDITION D'ARRET
   {
-    fprintf(stderr,"how much\n");
+
     FD_ZERO(&read_fd);
     FD_ZERO(&write_fd);
 
@@ -47,7 +47,6 @@ int selective_repeat_send(int sfd,FILE * f){
 
       // réception des acknowledgments
       if(FD_ISSET(sfd,&read_fd)){
-        fprintf(stderr, "locked\n");
         n = recv(sfd, buf_acknowledgment, 12, 0); // lis 12 bytes (taille d'un acknowledgment)
         printf("reception d'un ack de taille %d\n",n);
         if(n == -1) // message d'erreur en cas d'erreur

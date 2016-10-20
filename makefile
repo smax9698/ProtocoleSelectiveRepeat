@@ -28,4 +28,4 @@ src/receiver: src/receiver.o src/fonctions_communes.o src/connection_and_transfe
 .PHONY: clean
 
 clean:
-	@rm -f src/sender src/receiver src/sender.o src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_sender.o src/selective_repeat_receiver.o
+	@rm -f src/sender src/receiver src/sender.o src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_sender.o src/selective_repeat_receiver.o result.txt
