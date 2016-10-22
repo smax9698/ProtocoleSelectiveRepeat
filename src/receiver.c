@@ -13,6 +13,7 @@ int main(int argc,char *argv[]){
 
   char * file_name = NULL;
   char * host_name = NULL;
+  int err_num = 0;
 
   uint16_t port;
   if(read_entries(argc,argv,&file_name,&host_name,&port) == -1){
@@ -28,7 +29,7 @@ int main(int argc,char *argv[]){
 
   if(err){
     fprintf(stderr,"Could not resolve hostname %s: %s\n",host_name,err);
-    return EXIT_FAILURE;
+    return -1;
   }
 
   // establish connection
@@ -42,7 +43,7 @@ int main(int argc,char *argv[]){
   if(sfd > 0 && wait_for_client(sfd) < 0){ /* Connected */
     fprintf(stderr,"Could not connect the socket after the first message.\n");
     close(sfd);
-    return EXIT_FAILURE;
+    return -1;
   }
 
   FILE * f; // file descriptor sur lequel ecrire
@@ -54,6 +55,10 @@ int main(int argc,char *argv[]){
     f = stdout;
   }
 
-  selective_repeat_receive(sfd,f);
+  err_num = selective_repeat_receive(sfd,f);
+  if(err_num != 0){
+    fprintf(stderr, "erreur dans selective_repeat_receive\n");
+  }
+  printf("end of receiver\n");
   return 0;
 }

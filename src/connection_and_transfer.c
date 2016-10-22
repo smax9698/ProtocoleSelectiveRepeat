@@ -22,6 +22,7 @@ int create_socket(struct sockaddr_in6 *source_addr,struct sockaddr_in6 *dest_add
 
     if(err_num != 0){
       fprintf(stderr, "create_socket : %s\n",strerror(errno));
+      return -1;
     }
   }
 
@@ -34,6 +35,7 @@ int create_socket(struct sockaddr_in6 *source_addr,struct sockaddr_in6 *dest_add
 
     if(err_num != 0){
       fprintf(stderr, "create_socket : %s\n",strerror(errno));
+      return -1;
     }
 
   }
@@ -84,12 +86,14 @@ int wait_for_client(int sfd){
 
   if(err_num == -1){
     fprintf(stderr, "wait_for_client : recvfrom error\n");
+    return -1;
   }
 
   err_num = connect(sfd,(struct sockaddr*)&source_addr,sizeof(struct sockaddr_in6));
 
   if(err_num != 0){
     fprintf(stderr, "wait_for_client : %s\n",strerror(errno));
+    return -1;
   }
   return 0;
 }

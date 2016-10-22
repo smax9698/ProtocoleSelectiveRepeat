@@ -13,7 +13,7 @@ int main(int argc,char *argv[]){
 
   char * file_name = NULL;
   char * host_name = NULL;
-
+  int err_num = 0;
   uint16_t port;
   if(read_entries(argc,argv,&file_name,&host_name,&port) == -1){
     fprintf(stderr, "Error in entries\n");
@@ -28,7 +28,7 @@ int main(int argc,char *argv[]){
 
   if(err){
     fprintf(stderr, "Could not resolve hostname %s: %s\n", host_name, err);
-    return EXIT_FAILURE;
+    return -1;
   }
 
   // establish connection
@@ -37,6 +37,7 @@ int main(int argc,char *argv[]){
 
   if(sfd == -1){
     fprintf(stderr, "Not able to create socket : sfd = -1\n");
+    return -1;
   }
 
   FILE * f; // file descriptor sur lequel lire
@@ -48,7 +49,10 @@ int main(int argc,char *argv[]){
     f = stdin;
   }
 
-  selective_repeat_send(sfd,f);
-
+  err_num = selective_repeat_send(sfd,f);
+  if(err_num != 0){
+    fprintf(stderr,"erreur dans selective_repeat_send\n");
+  }
+  printf("end of sender\n");
   return 0;
 }

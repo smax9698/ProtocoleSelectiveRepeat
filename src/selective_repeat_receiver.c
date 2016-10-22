@@ -64,6 +64,7 @@ int selective_repeat_receive(int sfd,FILE * f){
 
     if(err_num == -1){
       fprintf(stderr, "%s\n",strerror(errno));
+      return -1;
     }
     else{
 
@@ -71,7 +72,7 @@ int selective_repeat_receive(int sfd,FILE * f){
       if(FD_ISSET(sfd,&read_fd) && FD_ISSET(sfd,&write_fd)){
         memset(buf_packet,0,MAX_PAYLOAD_SIZE+12);
         n = recv(sfd,buf_packet,MAX_PAYLOAD_SIZE+12,0); // lecture d'un packet de max 524 bytes
-
+        fprintf(stderr, "%d\n",n);
         // creation d'une structure et placement dans le buffer
         if(n > 0)
         {
@@ -84,7 +85,8 @@ int selective_repeat_receive(int sfd,FILE * f){
 
           if(n == 12) // si disconnect packet
           {
-            send_ack(sfd,window,seq_num_expected);
+            fprintf(stderr,"disconnect\n");
+            send_ack(sfd,0,seq_num_expected);
             disconnect_sender = true;
           }
           else if(status_decode != PKT_OK){
@@ -166,7 +168,6 @@ int selective_repeat_receive(int sfd,FILE * f){
       }
     }
   }
-
   close(fd);
   close(sfd);
 
