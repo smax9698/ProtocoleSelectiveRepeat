@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-
+#include <stdbool.h>
 #include "packet_implem.h"
 
 int selective_repeat_send(int sfd,FILE * f);

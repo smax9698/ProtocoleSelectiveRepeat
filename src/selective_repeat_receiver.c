@@ -36,7 +36,7 @@ int send_ack(int sfd, uint8_t window, uint16_t seq_num){
  */
 int selective_repeat_receive(int sfd,FILE * f){
 
-  uint8_t window = 31; // window [0,31]
+  uint8_t window = MAX_WINDOW_SIZE; // window [0,31]
   pkt_t * receiving_buffer[window]; // buffer contenant les segment à envoyer
   for (size_t i = 0; i < 31; i++) {
     receiving_buffer[i] = NULL;
@@ -50,8 +50,8 @@ int selective_repeat_receive(int sfd,FILE * f){
   int err_num;
 
   fd_set read_fd, write_fd;
-
-  while(n != 0){
+  bool disconnect_sender = false;
+  while(!disconnect_sender){
 
 
     FD_ZERO(&read_fd);
@@ -67,20 +67,27 @@ int selective_repeat_receive(int sfd,FILE * f){
     }
     else{
 
-      // réception des packets
+      // réception des packets et envoi des ack
       if(FD_ISSET(sfd,&read_fd) && FD_ISSET(sfd,&write_fd)){
-        memset(buf_packet,0,524);
-        n = recv(sfd,buf_packet,524,0); // lecture d'un packet de max 524 bytes
+        memset(buf_packet,0,MAX_PAYLOAD_SIZE+12);
+        n = recv(sfd,buf_packet,MAX_PAYLOAD_SIZE+12,0); // lecture d'un packet de max 524 bytes
 
         // creation d'une structure et placement dans le buffer
-        if(n > 0){
+        if(n > 0)
+        {
 
           pkt_t * new_pkt = pkt_new();
 
           // decodage buf_packet -> new_pkt
           pkt_status_code status_decode = pkt_decode(buf_packet, n, new_pkt);
 
-          if(status_decode != PKT_OK){
+
+          if(n == 12) // si disconnect packet
+          {
+            send_ack(sfd,window,seq_num_expected);
+            disconnect_sender = true;
+          }
+          else if(status_decode != PKT_OK){
             fprintf(stderr, "Corrupted packet : discarded\n");
 
             if(status_decode == E_CRC){
@@ -106,7 +113,7 @@ int selective_repeat_receive(int sfd,FILE * f){
               while (still_in_sequence_packet) {
                 still_in_sequence_packet = false;
                 size_t i;
-                for (i = 0; i < 31 && !still_in_sequence_packet; i++) {
+                for (i = 0; i < window && !still_in_sequence_packet; i++) {
 
                   if(receiving_buffer[i] != NULL){
                     if(pkt_get_seqnum(receiving_buffer[i]) == seq_num_expected){
@@ -130,7 +137,7 @@ int selective_repeat_receive(int sfd,FILE * f){
 
               // verifie que le paquet n'est pas deja dans le buffer
               bool inbuffer = false;
-              for (size_t i = 0; i < 31 && !inbuffer; i++) {
+              for (size_t i = 0; i < window && !inbuffer; i++) {
                 if(receiving_buffer[i] != NULL){
                   inbuffer = (pkt_get_seqnum(receiving_buffer[i])== pkt_get_seqnum(new_pkt));
                 }
@@ -159,5 +166,9 @@ int selective_repeat_receive(int sfd,FILE * f){
       }
     }
   }
+
+  close(fd);
+  close(sfd);
+
   return 0;
 }
