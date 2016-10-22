@@ -53,6 +53,6 @@ int main(int argc,char *argv[]){
   if(err_num != 0){
     fprintf(stderr,"erreur dans selective_repeat_send\n");
   }
-  printf("end of sender\n");
+  //printf("end of sender\n");
   return 0;
 }

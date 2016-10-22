@@ -89,7 +89,7 @@ int selective_repeat_send(int sfd,FILE * f){
             }
 
             lastack = pkt_get_seqnum(pkt_ack);
-            fprintf(stderr,"ack recu  : %d\n",lastack);
+            //fprintf(stderr,"ack recu  : %d\n",lastack);
 
             // retirer les packets acknowledged
             for (size_t i = 0; i < max_window; i++){
@@ -100,14 +100,14 @@ int selective_repeat_send(int sfd,FILE * f){
                 // verifie s'il faut retirer
                 if((lastack > seq_num_packet) && ((lastack - seq_num_packet) <= max_window)){
                   pkt_del(sending_buffer[i]);
-                  fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
+                  //fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
                   sending_buffer[i] = NULL;
                   time_buffer[i] = NULL;
                   window++;
                 }
                 else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
                   pkt_del(sending_buffer[i]);
-                  fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
+                  //fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
                   sending_buffer[i] = NULL;
                   time_buffer[i] = NULL;
                   window++;
@@ -174,7 +174,7 @@ int selective_repeat_send(int sfd,FILE * f){
 
                 err = send(sfd,buf_packet,len,0);
 
-                fprintf(stderr,"packet envoyé seq_num : %d\n",pkt_get_seqnum(new_pkt));
+                //fprintf(stderr,"packet envoyé seq_num : %d\n",pkt_get_seqnum(new_pkt));
 
                 // enregistre le moment d'envoi
 
@@ -214,7 +214,7 @@ int selective_repeat_send(int sfd,FILE * f){
                 }
 
                 err = send(sfd,buf_packet,len,0);
-                fprintf(stderr, "packet réenvoyé seq_num %d\n",pkt_get_seqnum(sending_buffer[i]));
+                //fprintf(stderr, "packet réenvoyé seq_num %d\n",pkt_get_seqnum(sending_buffer[i]));
                 gettimeofday(time_buffer[i],NULL);
                 if(err == -1){
                   fprintf(stderr, "send error %s\n",strerror(errno));
@@ -289,7 +289,7 @@ int selective_repeat_send(int sfd,FILE * f){
         sending_buffer[0] = pkt_disconnect;
         err = send(sfd,buf_ack,len,0);
 
-        fprintf(stderr,"packet envoyé disconnect\n");
+        //fprintf(stderr,"packet envoyé disconnect\n");
 
         // enregistre le moment d'envoi
 

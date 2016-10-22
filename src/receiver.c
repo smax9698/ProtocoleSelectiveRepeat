@@ -59,6 +59,6 @@ int main(int argc,char *argv[]){
   if(err_num != 0){
     fprintf(stderr, "erreur dans selective_repeat_receive\n");
   }
-  printf("end of receiver\n");
+  //printf("end of receiver\n");
   return 0;
 }

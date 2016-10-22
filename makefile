@@ -14,7 +14,7 @@ LDFLAGS += -rdynamic
 LDFLAGS += -lz
 
 # Default target
-all: clean src/sender src/receiver
+all: clean src/sender src/receiver deldoto tests
 
 # If we run `make debug` instead, keep the debug symbols for gdb
 # and define the DEBUG macro.
@@ -24,8 +24,13 @@ debug: clean sender receiver
 # We use an implicit rule to build executables named 'sender' and  receiver
 src/sender: src/sender.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o	src/selective_repeat_sender.o
 src/receiver: src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_receiver.o
+tests: tests/tests.c
+	cd tests && make
+	@rm -f tests/tests.o
 
-.PHONY: clean
+.PHONY: clean tests deldoto
 
+deldoto:
+	@rm -f src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_receiver.o	src/sender.o
 clean:
-	@rm -f src/sender src/receiver src/sender.o src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_sender.o src/selective_repeat_receiver.o result.txt
+	@rm -f src/sender src/receiver src/sender.o src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_sender.o src/selective_repeat_receiver.o tests/tests.o tests/tests tests/test_out_fiable.txt tests/test_out_delay.txt tests/test_out_lost.txt tests/test_out_corrupt.txt tests/test_out_mix.txt
