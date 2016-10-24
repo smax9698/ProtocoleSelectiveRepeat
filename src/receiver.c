@@ -3,6 +3,10 @@
 #include <string.h>
 #include <stdint.h>
 #include <getopt.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 #include "fonctions_communes.h"
 #include "connection_and_transfer.h"
 #include "selective_repeat_receiver.h"
@@ -46,16 +50,16 @@ int main(int argc,char *argv[]){
     return -1;
   }
 
-  FILE * f; // file descriptor sur lequel ecrire
+  int fd; // file descriptor sur lequel ecrire
 
   if(file_name != NULL){
-    f = fopen(file_name,"w"); // file descriptor du fichier sur lequel ecrire
+    fd = open(file_name,O_WRONLY); // file descriptor du fichier sur lequel ecrire
   }
   else{
-    f = stdout;
+    fd = STDOUT_FILENO;
   }
 
-  err_num = selective_repeat_receive(sfd,f);
+  err_num = selective_repeat_receive(sfd,fd);
   if(err_num != 0){
     fprintf(stderr, "erreur dans selective_repeat_receive\n");
   }

@@ -6,7 +6,7 @@
  *
  * TO DO : timestamp and resend
  */
-int selective_repeat_send(int sfd,FILE * f){
+int selective_repeat_send(int sfd,int fd){
 
   uint8_t window = 1; // window [0,31]
   uint8_t max_window = 1;
@@ -34,7 +34,6 @@ int selective_repeat_send(int sfd,FILE * f){
   char buf_packet[MAX_PAYLOAD_SIZE+12]; // packet
   char buf_acknowledgment[12]; // acknowledgement
 
-  int fd = fileno(f);
   int max_fd = sfd+1;
 
   fd_set read_fd, write_fd;

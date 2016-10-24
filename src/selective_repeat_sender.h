@@ -14,6 +14,6 @@
 #include <stdbool.h>
 #include "packet_implem.h"
 
-int selective_repeat_send(int sfd,FILE * f);
+int selective_repeat_send(int sfd,int fd);
 
 #endif

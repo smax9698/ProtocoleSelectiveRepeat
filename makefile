@@ -31,6 +31,6 @@ tests: tests/tests.c
 .PHONY: clean tests deldoto
 
 deldoto:
-	@rm -f src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_receiver.o	src/sender.o
+	@rm -f src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_receiver.o src/selective_repeat_sender.o	src/sender.o
 clean:
 	@rm -f src/sender src/receiver src/sender.o src/receiver.o src/fonctions_communes.o src/connection_and_transfer.o src/packet_implem.o src/selective_repeat_sender.o src/selective_repeat_receiver.o tests/tests.o tests/tests tests/test_out_fiable.txt tests/test_out_delay.txt tests/test_out_lost.txt tests/test_out_corrupt.txt tests/test_out_mix.txt

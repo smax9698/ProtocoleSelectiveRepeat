@@ -53,7 +53,7 @@ void test_protocole_mix(void)
 
 int main(int argc, char const *argv[])
 {
-    printf("Lancement des tests\nTemps estimé : 50s");
+    printf("Lancement des tests\nTemps estimé : 50s\n");
     CU_pSuite pSuite = NULL;
 
     if(CUE_SUCCESS != CU_initialize_registry())

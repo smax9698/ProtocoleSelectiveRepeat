@@ -26,7 +26,7 @@ if ! ./../src/sender localhost 1341 < test_in.txt 2> sender.log ; then
   err=1  # On enregistre l'erreur
 fi
 
-sleep 18 # On attend 8 seconde que le receiver finisse
+sleep 3 # On attend 8 seconde que le receiver finisse
 
 if kill -0 $receiver_pid &> /dev/null ; then
   echo "Le receiver ne s'est pas arreté à la fin du transfert!"

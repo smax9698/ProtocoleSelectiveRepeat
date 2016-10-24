@@ -1,11 +1,11 @@
-#include "packet_implem.h"
-#include "fonctions_communes.h"
-#include "connection_and_transfer.h"
-#include "selective_repeat_sender.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "packet_implem.h"
+#include "fonctions_communes.h"
+#include "connection_and_transfer.h"
+#include "selective_repeat_sender.h"
 
 int main(int argc,char *argv[]){
 
@@ -41,15 +41,16 @@ int main(int argc,char *argv[]){
   }
 
   FILE * f; // file descriptor sur lequel lire
-
+  int fd;
   if(file_name != NULL){
     f = fopen(file_name,"r"); // file descriptor du fichier à lire
+    fd = open(file_name, O_RDONLY);
   }
   else{
-    f = stdin;
+    fd = STDIN_FILENO;
   }
 
-  err_num = selective_repeat_send(sfd,f);
+  err_num = selective_repeat_send(sfd,fd);
   if(err_num != 0){
     fprintf(stderr,"erreur dans selective_repeat_send\n");
   }

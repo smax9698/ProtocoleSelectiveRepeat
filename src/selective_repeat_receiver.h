@@ -16,6 +16,6 @@
 
 int send_ack(int sfd, uint8_t window, uint16_t seq_num);
 
-int selective_repeat_receive(int sfd,FILE * f);
+int selective_repeat_receive(int sfd,int fd);
 
 #endif
