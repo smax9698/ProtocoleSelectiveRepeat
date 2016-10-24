@@ -8,7 +8,7 @@
 link_pid=$!
 
 # On lance le receiver et capture sa sortie standard
-./../src/receiver -f test_out_lost.txt :: 2456  2> receiver.log &
+./../src/receiver :: 2456 > test_out_lost.txt 2> receiver.log &
 receiver_pid=$!
 
 cleanup()

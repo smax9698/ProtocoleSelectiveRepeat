@@ -202,8 +202,8 @@ int selective_repeat_send(int sfd,int fd){
             struct timeval * now = (struct timeval *)malloc(sizeof(struct timeval));
             gettimeofday(now,NULL);
 
-            if((now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000 > 1000){
-                fprintf(stderr,"%ld\n",(now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000);
+            if((now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000 > TIME_OUT){
+                //fprintf(stderr,"%ld\n",(now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000);
                 size_t len = pkt_get_length(sending_buffer[i])+12;
                 memset(buf_packet,0,524);
                 pkt_status_code status_code = pkt_encode(sending_buffer[i],buf_packet,&len);
@@ -306,7 +306,7 @@ int selective_repeat_send(int sfd,int fd){
         struct timeval * now = (struct timeval *)malloc(sizeof(struct timeval));
         gettimeofday(now,NULL);
 
-        if((now->tv_sec - time_buffer[0]->tv_sec)*1000 - (now->tv_usec - time_buffer[0]->tv_usec)/1000 > 1000){
+        if((now->tv_sec - time_buffer[0]->tv_sec)*1000 - (now->tv_usec - time_buffer[0]->tv_usec)/1000 > TIME_OUT){
             size_t len = 12;
             memset(buf_ack,0,12);
             pkt_status_code st_code = pkt_encode(sending_buffer[0],buf_ack,&len);
