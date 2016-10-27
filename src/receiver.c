@@ -53,7 +53,7 @@ int main(int argc,char *argv[]){
   int fd; // file descriptor sur lequel ecrire
 
   if(file_name != NULL){
-    fd = open(file_name,O_WRONLY|O_CREAT); // file descriptor du fichier sur lequel ecrire
+    fd = open(file_name,O_WRONLY|O_CREAT,777); // file descriptor du fichier sur lequel ecrire
   }
   else{
     fd = STDOUT_FILENO;

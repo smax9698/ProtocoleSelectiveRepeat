@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include "packet_implem.h"
 
-#define TIME_OUT 4000
+#define TIME_OUT 250
 
 int selective_repeat_send(int sfd,int fd);
 
