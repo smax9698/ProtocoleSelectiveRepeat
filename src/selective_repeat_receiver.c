@@ -20,7 +20,7 @@ int send_ack(int sfd, uint8_t window, uint16_t seq_num){
   }
   else{
     err_num = send(sfd,buf_ack,sizeof(buf_ack),0);
-    fprintf(stderr, "send ack seq_num_expected : %d\n",pkt_get_seqnum(ack_pkt));
+    //fprintf(stderr, "send ack seq_num_expected : %d\n",pkt_get_seqnum(ack_pkt));
     if(err_num == -1){
       fprintf(stderr, "send error %s\n",strerror(errno));
       return -1;
@@ -87,8 +87,8 @@ int selective_repeat_receive(int sfd,int fd){
           {
 			if(pkt_get_seqnum(new_pkt) == seq_num_expected){
 				send_ack(sfd,0,(seq_num_expected+1)%256);
-				sleep(3);
-            	disconnect_sender = true;
+				sleep(1);
+        disconnect_sender = true;
 			}
 			else{
 				send_ack(sfd,0,seq_num_expected);
@@ -96,10 +96,10 @@ int selective_repeat_receive(int sfd,int fd){
 
           }
           else if(status_decode != PKT_OK){
-            fprintf(stderr, "Corrupted packet : discarded\n");
+            //fprintf(stderr, "Corrupted packet : discarded\n");
 
             if(status_decode == E_CRC){
-				fprintf(stderr,"crc\n");
+				      fprintf(stderr,"crc\n");
               send_ack(sfd,window,seq_num_expected);
             }
 
@@ -108,11 +108,11 @@ int selective_repeat_receive(int sfd,int fd){
 
             if(pkt_get_seqnum(new_pkt) == seq_num_expected) // si packet attendu...
             {
-              fprintf(stderr,"packet reçu IN ORDER seq_num : %d\n",pkt_get_seqnum(new_pkt));
+              //fprintf(stderr,"packet reçu IN ORDER seq_num : %d\n",pkt_get_seqnum(new_pkt));
 
               // WRITE PACKET payload
               write(fd,pkt_get_payload(new_pkt),pkt_get_length(new_pkt));
-              fprintf(stderr,"write packet seq_num : %d\n",pkt_get_seqnum(new_pkt));
+              //fprintf(stderr,"write packet seq_num : %d\n",pkt_get_seqnum(new_pkt));
               // SEND ack
 
               seq_num_expected = (seq_num_expected+1)%256;
@@ -128,7 +128,7 @@ int selective_repeat_receive(int sfd,int fd){
                     if(pkt_get_seqnum(receiving_buffer[i]) == seq_num_expected){
                       // WRITE packet
                       write(fd,pkt_get_payload(receiving_buffer[i]),pkt_get_length(receiving_buffer[i]));
-                      fprintf(stderr,"write packet seq_num : %d\n",seq_num_expected);
+                      //fprintf(stderr,"write packet seq_num : %d\n",seq_num_expected);
                       seq_num_expected = (seq_num_expected+1)%256;
 
                       receiving_buffer[i] = NULL;
@@ -142,7 +142,7 @@ int selective_repeat_receive(int sfd,int fd){
             }
             else if(((pkt_get_seqnum(new_pkt) > seq_num_expected) && ((pkt_get_seqnum(new_pkt) - seq_num_expected) <= window)) || ((pkt_get_seqnum(new_pkt) < seq_num_expected) && ((pkt_get_seqnum(new_pkt) + 255 - seq_num_expected) <= window))) // si packet dans le désordre
             {
-              fprintf(stderr,"packet reçu OUT OF ORDER sequ_num : %d\n",pkt_get_seqnum(new_pkt));
+              //fprintf(stderr,"packet reçu OUT OF ORDER sequ_num : %d\n",pkt_get_seqnum(new_pkt));
 
               // verifie que le paquet n'est pas deja dans le buffer
               bool inbuffer = false;
@@ -167,7 +167,7 @@ int selective_repeat_receive(int sfd,int fd){
             }
             else
             {
-              fprintf(stderr,"packet reçu DISCARD seq_num : %d\n",pkt_get_seqnum(new_pkt));
+              //fprintf(stderr,"packet reçu DISCARD seq_num : %d\n",pkt_get_seqnum(new_pkt));
               send_ack(sfd,window,seq_num_expected);
             }
           }
@@ -177,6 +177,6 @@ int selective_repeat_receive(int sfd,int fd){
   }
   close(fd);
   close(sfd);
-	fprintf(stderr,"stop receivver");
+	fprintf(stderr,"stop receiver");
   return 0;
 }

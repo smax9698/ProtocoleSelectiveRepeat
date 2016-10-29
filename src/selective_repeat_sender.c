@@ -88,7 +88,7 @@ int selective_repeat_send(int sfd,int fd){
             }
 
             lastack = pkt_get_seqnum(pkt_ack);
-            fprintf(stderr,"ack recu  : %d\n",lastack);
+            //fprintf(stderr,"ack recu  : %d\n",lastack);
 
             // retirer les packets acknowledged
             for (size_t i = 0; i < max_window; i++){
@@ -99,14 +99,14 @@ int selective_repeat_send(int sfd,int fd){
                 // verifie s'il faut retirer
                 if((lastack > seq_num_packet) && ((lastack - seq_num_packet) <= max_window)){
                   pkt_del(sending_buffer[i]);
-                  fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
+                  //fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
                   sending_buffer[i] = NULL;
                   time_buffer[i] = NULL;
                   window++;
                 }
                 else if((lastack < seq_num_packet) && (lastack + 255 - seq_num_packet) <= max_window){
                   pkt_del(sending_buffer[i]);
-                  fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
+                  //fprintf(stderr,"retrait du packet seq_num : %d\n",seq_num_packet);
                   sending_buffer[i] = NULL;
                   time_buffer[i] = NULL;
                   window++;
@@ -173,7 +173,7 @@ int selective_repeat_send(int sfd,int fd){
 
                 err = send(sfd,buf_packet,len,0);
 
-                fprintf(stderr,"packet envoyé seq_num : %d\n",pkt_get_seqnum(new_pkt));
+                //fprintf(stderr,"packet envoyé seq_num : %d\n",pkt_get_seqnum(new_pkt));
 
                 // enregistre le moment d'envoi
 
@@ -203,7 +203,7 @@ int selective_repeat_send(int sfd,int fd){
             gettimeofday(now,NULL);
 
             if((now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000 > TIME_OUT){
-                fprintf(stderr,"%ld\n",(now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000);
+                //fprintf(stderr,"%ld\n",(now->tv_sec - time_buffer[i]->tv_sec)*1000 - (now->tv_usec - time_buffer[i]->tv_usec)/1000);
                 size_t len = pkt_get_length(sending_buffer[i])+12;
                 memset(buf_packet,0,524);
                 pkt_status_code status_code = pkt_encode(sending_buffer[i],buf_packet,&len);
@@ -213,7 +213,7 @@ int selective_repeat_send(int sfd,int fd){
                 }
 
                 err = send(sfd,buf_packet,len,0);
-                fprintf(stderr, "packet réenvoyé seq_num %d\n",pkt_get_seqnum(sending_buffer[i]));
+                //fprintf(stderr, "packet réenvoyé seq_num %d\n",pkt_get_seqnum(sending_buffer[i]));
                 gettimeofday(time_buffer[i],NULL);
                 if(err == -1){
                   fprintf(stderr, "send error %s\n",strerror(errno));
@@ -288,7 +288,7 @@ int selective_repeat_send(int sfd,int fd){
         sending_buffer[0] = pkt_disconnect;
         err = send(sfd,buf_ack,len,0);
 
-        fprintf(stderr,"packet envoyé disconnect\n");
+        //fprintf(stderr,"packet envoyé disconnect\n");
 
         // enregistre le moment d'envoi
 
@@ -315,7 +315,7 @@ int selective_repeat_send(int sfd,int fd){
               fprintf(stderr, "Not able to encode the structure\n");
               return -1;
             }
-			fprintf(stderr,"resend\n");
+			      //fprintf(stderr,"resend end ack\n");
             err = send(sfd,buf_ack,len,0);
             if(err == -1){
               disconnected_sender = true;
